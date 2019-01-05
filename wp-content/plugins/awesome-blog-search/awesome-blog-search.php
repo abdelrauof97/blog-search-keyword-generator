@@ -164,6 +164,51 @@ class PageTemplater {
 add_action( 'plugins_loaded', array( 'PageTemplater', 'get_instance' ) );
 
 
+/**
+ * A function used to programmatically create a post in WordPress. The slug, author ID, and title
+ * are defined within the context of the function.
+ *
+ * @returns -1 if the post was never created, -2 if a post with the same title exists, or the ID
+ *          of the post if successful.
+ */
+function programmatically_create_post() {
+
+ // Initialize the page ID to -1. This indicates no action has been taken.
+ $post_id = -1;
+
+ // Setup the author, slug, and title for the post
+ $author_id = 1;
+ $slug = 'search';
+ $title = 'Blog Search';
+
+ // If the page doesn't already exist, then create it
+ if( null == get_page_by_title( $title ) ) {
+
+   // Set the post ID so that we know the post was created successfully
+   $post_id = wp_insert_post(
+     array(
+       'comment_status'	=>	'closed',
+       'ping_status'		=>	'closed',
+       'post_name'		=>	$slug,
+       'post_title'		=>	$title,
+       'post_status'		=>	'publish',
+       'post_type'		=>	'page',
+       'page_template'  => 'goodtobebad-template.php',
+     )
+   );
+
+ // Otherwise, we'll stop
+ } else {
+
+       // Arbitrarily use -2 to indicate that the page with the title already exists
+       $post_id = -2;
+
+ } // end if
+
+} // end programmatically_create_post
+add_filter( 'after_setup_theme', 'programmatically_create_post' );
+
+
 function geotags_add_rewrite_rules($wp_rewrite_rules) {
     global $wp_rewrite;
 
@@ -173,7 +218,7 @@ function geotags_add_rewrite_rules($wp_rewrite_rules) {
 
     $wp_rewrite->add_rewrite_tag($rule_key, $url_pattern, $query_string);
 
-    $url_structure = $wp_rewrite->root . "search/$rule_key/";
+    $url_structure = $wp_rewrite->root . "blog/search/$rule_key/";
     $rewrite_rules = $wp_rewrite->generate_rewrite_rules($url_structure);
 
     $wp_rewrite_rules = $rewrite_rules + $wp_rewrite_rules;
