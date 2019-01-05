@@ -163,4 +163,30 @@ class PageTemplater {
 }
 add_action( 'plugins_loaded', array( 'PageTemplater', 'get_instance' ) );
 
+
+function geotags_add_rewrite_rules($wp_rewrite_rules) {
+    global $wp_rewrite;
+
+    $rule_key = '%search%';
+    $url_pattern = '([^/]+)';
+    $query_string = 'pagename=search&search=';
+
+    $wp_rewrite->add_rewrite_tag($rule_key, $url_pattern, $query_string);
+
+    $url_structure = $wp_rewrite->root . "search/$rule_key/";
+    $rewrite_rules = $wp_rewrite->generate_rewrite_rules($url_structure);
+
+    $wp_rewrite_rules = $rewrite_rules + $wp_rewrite_rules;
+    return $wp_rewrite_rules;
+}
+
+add_filter('rewrite_rules_array', 'geotags_add_rewrite_rules');
+
+function geotags_add_query_var($query_vars) {
+    array_push($query_vars, 'search');
+    return $query_vars;
+}
+
+add_filter('query_vars','geotags_add_query_var');
+
 ?>
