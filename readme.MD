@@ -1,5 +1,5 @@
 <h1 id="logo">
-	<a href="https://wordpress.org/"><img alt="WordPress" src="wp-admin/images/wordpress-logo.png" /></a>
+	Awesome Blog Search Wordpress Plugin
 </h1>
 <p style="text-align: center">Semantic Personal Plugin for kewords generation search for blogs</p>
 
