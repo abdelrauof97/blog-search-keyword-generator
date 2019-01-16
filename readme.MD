@@ -11,7 +11,7 @@
 <ol>
 	<li>Download the awesome-blog-search folder</li>
 	<li>Once the Download compeleted, go and move the plugin into the plugins directory on your project</li>
-	<li>go into </li>
+	<li>go into the route /blog/search/{keyword} to test the plugin in real environment, replace the keyword with searched words</li>
 </ol>
 
 <h2>Final Notes</h2>
